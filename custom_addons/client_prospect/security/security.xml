@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="module_category_log_am" model="ir.module.category">
+            <field name="name">Prospek</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_log_am_user" model="res.groups">
+            <field name="name">Prospek User</field>
+            <field name="category_id" ref="module_category_log_am"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_client_prospect_own_write" model="ir.rule">
+            <field name="name">Client Prospect Own Write</field>
+            <field name="model_id" ref="model_client_prospect"/>
+            <field name="groups" eval="[(4, ref('group_log_am_user'))]"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_log_am_own_write" model="ir.rule">
+            <field name="name">Log AM Own Write</field>
+            <field name="model_id" ref="model_log_am"/>
+            <field name="groups" eval="[(4, ref('group_log_am_user'))]"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>
