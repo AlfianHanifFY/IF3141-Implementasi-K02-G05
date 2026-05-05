@@ -1,0 +1,66 @@
+<odoo>
+    <!-- 1. List View (Tree) -->
+    <record id="view_log_am_tree" model="ir.ui.view">
+        <field name="name">log.am.tree</field>
+        <field name="model">log.am</field>
+        <field name="arch" type="xml">
+            <tree string="Log AM">
+                <field name="date"/>
+                <field name="am_id"/>
+                <field name="client_id"/>
+                <field name="activity_type"/>
+                <field name="notes"/>
+                <field name="result"/>
+                <button name="unlink" type="object" icon="fa-trash" title="Hapus" confirm="Apakah Anda yakin ingin menghapus log aktivitas ini?"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- 2. Form View -->
+    <record id="view_log_am_form" model="ir.ui.view">
+        <field name="name">log.am.form</field>
+        <field name="model">log.am</field>
+        <field name="arch" type="xml">
+            <form string="Log AM">
+                <header>
+                    <button name="unlink" type="object" string="Hapus" class="btn-secondary" confirm="Apakah Anda yakin ingin menghapus log aktivitas ini?"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="am_id" readonly="1"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="activity_type"/>
+                            <field name='status'/>
+                        </group>
+                    </group>
+                    <group string="Details">
+                        <field name="notes"/>
+                        <field name="result"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- 3. Window Action -->
+    <record id="action_log_am" model="ir.actions.act_window">
+        <field name="name">Log Aktivitas AM</field>
+        <field name="res_model">log.am</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('am_id', '=', uid)]</field>
+        <field name="context">{'default_am_id': uid}</field>
+    </record>
+
+    <menuitem
+        id="menu_log_am_main"
+        name="Log AM"
+        parent="menu_client_prospect_root"
+        sequence="20"
+        action="action_log_am"
+        groups="client_prospect.group_log_am_user"/>
+
+</odoo>

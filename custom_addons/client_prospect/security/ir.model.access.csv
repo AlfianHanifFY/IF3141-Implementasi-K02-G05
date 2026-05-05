@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_client_prospect_read_all,access_client_prospect_read_all,model_client_prospect,base.group_user,1,0,0,0
+access_log_am_read_all,access_log_am_read_all,model_log_am,base.group_user,1,0,0,0
+access_client_prospect_user,access_client_prospect_user,model_client_prospect,client_prospect.group_log_am_user,1,1,1,1
+access_log_am_user,access_log_am_user,model_log_am,client_prospect.group_log_am_user,1,1,1,1
