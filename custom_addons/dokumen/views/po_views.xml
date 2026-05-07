@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dokumen_po_tree" model="ir.ui.view">
+        <field name="name">dokumen.po.tree</field>
+        <field name="model">dokumen.dokumen</field>
+        <field name="arch" type="xml">
+            <tree string="PO" create="0">
+                <field name="name"/>
+                <field name="no_po"/>
+                <field name="po_id"/>
+                <field name="begin_date_po"/>
+                <field name="end_date_po"/>
+                <field name="value_po" widget="monetary"/>
+                <field name="filename" invisible="1"/>
+                <field name="file" filename="filename" widget="binary"/>
+                <field name="client_id"/>
+                <button name="unlink" type="object" icon="fa-trash" title="Hapus" confirm="Apakah Anda yakin ingin menghapus dokumen ini?"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dokumen_po_form" model="ir.ui.view">
+        <field name="name">dokumen.po.form</field>
+        <field name="model">dokumen.dokumen</field>
+        <field name="arch" type="xml">
+            <form string="PO" create="0">
+                <header>
+                    <button name="unlink" type="object" string="Hapus" class="btn-secondary" confirm="Apakah Anda yakin ingin menghapus dokumen ini?"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. PO Project A"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type" readonly="1"/>
+                            <field name="client_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="filename" invisible="1"/>
+                            <field name="file" filename="filename" widget="binary"/>
+                        </group>
+                    </group>
+                    <group string="PO Information">
+                        <group>
+                            <field name="no_po"/>
+                            <field name="po_id" string="Prospek PO"/>
+                        </group>
+                        <group>
+                            <field name="begin_date_po"/>
+                            <field name="end_date_po"/>
+                            <field name="value_po" widget="monetary"/>
+                        </group>
+                        <group colspan="2">
+                            <field name="description_po"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Deskripsi" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dokumen_po" model="ir.actions.act_window">
+        <field name="name">PO</field>
+        <field name="res_model">dokumen.dokumen</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type', '=', 'po')]</field>
+        <field name="context">{'default_type': 'po', 'search_default_group_by_client': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0), 
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_dokumen_po_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_dokumen_po_form')})]"/>
+    </record>
+
+    <menuitem id="menu_dokumen_po" name="PO" parent="menu_dokumen_root" sequence="30" action="action_dokumen_po" groups="dokumen.group_dokumen_user"/>
+</odoo>
