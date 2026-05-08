@@ -2,7 +2,8 @@
 <odoo>
     <menuitem id="monitor_menu_root"
               name="Monitoring"
-              sequence="1"/>
+              sequence="1"
+              groups="monitor.group_monitor_user"/>
 
     <record id="view_monitor_progress_proyek_tree" model="ir.ui.view">
         <field name="name">monitor.progress_proyek.tree</field>
@@ -73,5 +74,6 @@
               name="Progress Proyek"
               parent="monitor_menu_root"
               action="action_monitor_progress_proyek"
-              sequence="20"/>
+              sequence="20"
+              groups="monitor.group_monitor_user"/>
 </odoo>

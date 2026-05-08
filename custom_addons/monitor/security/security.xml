@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_category_monitor" model="ir.module.category">
+            <field name="name">Monitor</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="group_monitor_user" model="res.groups">
+            <field name="name">Monitor User</field>
+            <field name="category_id" ref="module_category_monitor"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_monitor_progress_proyek_own_write" model="ir.rule">
+            <field name="name">Monitor Progress Proyek Own Write</field>
+            <field name="model_id" ref="model_monitor_progress_proyek"/>
+            <field name="groups" eval="[(4, ref('group_monitor_user'))]"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_monitor_log_progress_proyek_own_write" model="ir.rule">
+            <field name="name">Monitor Log Progress Proyek Own Write</field>
+            <field name="model_id" ref="model_monitor_log_progress_proyek"/>
+            <field name="groups" eval="[(4, ref('group_monitor_user'))]"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>
