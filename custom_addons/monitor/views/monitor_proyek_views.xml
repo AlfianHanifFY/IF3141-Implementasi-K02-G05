@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="monitor_menu_root"
+              name="Monitoring"
+              sequence="1"/>
+
+    <record id="view_monitor_progress_proyek_tree" model="ir.ui.view">
+        <field name="name">monitor.progress_proyek.tree</field>
+        <field name="model">monitor.progress_proyek</field>
+        <field name="arch" type="xml">
+            <tree string="Progress Proyek">
+                <field name="name"/>
+                <field name="dokumen_id"/>
+                <field name="project_manager_id"/>
+                <field name="percentage" widget="progressbar"/>
+                <field name="status" widget="badge" decoration-info="status == 'open'" decoration-warning="status == 'in_progress'" decoration-success="status == 'done'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_monitor_progress_proyek_form" model="ir.ui.view">
+        <field name="name">monitor.progress_proyek.form</field>
+        <field name="model">monitor.progress_proyek</field>
+        <field name="arch" type="xml">
+            <form string="Progress Proyek">
+        
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nama Progress Proyek"/>
+                        <h1>
+                            <field name="name" placeholder="Misal: Pengembangan Modul Monitoring"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="dokumen_id" options="{'no_create': True}"/>
+                            <field name="prospect_id" readonly="1"/>
+                            <field name="project_manager_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                            <field name="percentage"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Deskripsi" name="description">
+                            <field name="description" placeholder="Detail progress proyek..."/>
+                        </page>
+                        <page string="Log Progress" name="logs">
+                            <field name="log_ids">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_monitor_progress_proyek" model="ir.actions.act_window">
+        <field name="name">Progress Proyek</field>
+        <field name="res_model">monitor.progress_proyek</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_monitor_progress_proyek"
+              name="Progress Proyek"
+              parent="monitor_menu_root"
+              action="action_monitor_progress_proyek"
+              sequence="20"/>
+</odoo>

@@ -6,7 +6,7 @@
     'author': 'Custom',
     'license': 'LGPL-3',
     'depends': ['base','client_prospect','dokumen'],
-    'data': [],
+    'data': ['views/monitor_proyek_views.xml','security/security.xml','security/ir.model.access.csv'],
     'application': True,
     'installable': True,
 }
