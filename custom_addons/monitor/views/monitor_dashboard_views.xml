@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 1. Pivot View for Monthly Targets (monitor.target.line) -->
+    <record id="view_monitor_target_line_pivot" model="ir.ui.view">
+        <field name="name">monitor.target.line.pivot</field>
+        <field name="model">monitor.target.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Rincian Target Bulanan" sample="1">
+                <field name="target_id" type="row"/>
+                <field name="month" type="col"/>
+                <field name="amount_target" type="measure"/>
+                <field name="amount_realized" type="measure"/>
+                <field name="amount_miss" type="measure"/>
+                <field name="achievement_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+
+    <!-- 2b. Search View for Monthly Targets (for grouping) -->
+    <record id="view_monitor_target_line_search" model="ir.ui.view">
+        <field name="name">monitor.target.line.search</field>
+        <field name="model">monitor.target.line</field>
+        <field name="arch" type="xml">
+            <search string="Cari Target Line">
+                <field name="target_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project/Tahun" name="group_by_target" context="{'group_by': 'target_id'}"/>
+                    <filter string="Bulan" name="group_by_month" context="{'group_by': 'month', 'orderby': 'month_int asc'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- ACTIONS -->
+
+    <record id="action_monitor_dashboard_finance" model="ir.actions.act_window">
+        <field name="name">Keuangan: Rincian Bulanan</field>
+        <field name="res_model">monitor.target.line</field>
+        <field name="view_mode">pivot</field>
+        <field name="search_view_id" ref="view_monitor_target_line_search"/>
+        <field name="context">{'search_default_group_by_target': 1}</field>
+    </record>
+
+    <!-- MENUS -->
+    <menuitem id="menu_monitor_dashboard_root"
+              name="Dashboard"
+              parent="monitor_menu_root"
+              sequence="1"
+              groups="monitor.group_monitor_user"/>
+
+    <menuitem id="menu_monitor_dashboard_finance"
+              name="Keuangan: Target vs Realisasi"
+              parent="menu_monitor_dashboard_root"
+              action="action_monitor_dashboard_finance"
+              sequence="10"
+              groups="monitor.group_monitor_user"/>
+
+</odoo>

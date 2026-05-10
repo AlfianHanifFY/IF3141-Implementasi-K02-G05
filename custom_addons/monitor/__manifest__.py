@@ -11,6 +11,7 @@
         'security/ir.model.access.csv',
         'views/monitor_target_views.xml',
         'views/monitor_proyek_views.xml',
+        'views/monitor_dashboard_views.xml',
     ],
     'application': True,
     'installable': True,
