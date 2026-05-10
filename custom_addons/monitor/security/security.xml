@@ -12,6 +12,28 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
+        <record id="rule_monitor_target_own_write" model="ir.rule">
+            <field name="name">Monitor Target Own Write</field>
+            <field name="model_id" ref="model_monitor_target"/>
+            <field name="groups" eval="[(4, ref('group_monitor_user'))]"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_monitor_target_line_own_write" model="ir.rule">
+            <field name="name">Monitor Target Line Own Write</field>
+            <field name="model_id" ref="model_monitor_target_line"/>
+            <field name="groups" eval="[(4, ref('group_monitor_user'))]"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
         <record id="rule_monitor_progress_proyek_own_write" model="ir.rule">
             <field name="name">Monitor Progress Proyek Own Write</field>
             <field name="model_id" ref="model_monitor_progress_proyek"/>
