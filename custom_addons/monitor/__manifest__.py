@@ -9,6 +9,7 @@
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/monitor_target_views.xml',
         'views/monitor_proyek_views.xml',
     ],
     'application': True,
