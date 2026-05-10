@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="monitor_menu_root"
-              name="Monitoring"
-              sequence="1"
-              groups="monitor.group_monitor_user"/>
-
     <record id="view_monitor_progress_proyek_tree" model="ir.ui.view">
         <field name="name">monitor.progress_proyek.tree</field>
         <field name="model">monitor.progress_proyek</field>

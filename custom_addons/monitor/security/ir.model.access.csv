@@ -3,5 +3,9 @@ access_monitor_target_read_all,monitor.target.read.all,model_monitor_target,base
 access_monitor_target_line_read_all,monitor.target.line.read.all,model_monitor_target_line,base.group_user,1,0,0,0
 access_monitor_progress_proyek_read_all,monitor.progress.proyek.read.all,model_monitor_progress_proyek,base.group_user,1,0,0,0
 access_monitor_log_progress_proyek_read_all,monitor.log.progress.proyek.read.all,model_monitor_log_progress_proyek,base.group_user,1,0,0,0
+access_monitor_am_performance_report_read_all,monitor.am.performance.report.read.all,model_monitor_am_performance_report,base.group_user,1,0,0,0
+access_monitor_target,monitor.target,model_monitor_target,monitor.group_monitor_user,1,1,1,1
+access_monitor_target_line,monitor.target.line,model_monitor_target_line,monitor.group_monitor_user,1,1,1,1
 access_monitor_progress_proyek,monitor.progress_proyek,model_monitor_progress_proyek,monitor.group_monitor_user,1,1,1,1
 access_monitor_log_progress_proyek,monitor.log_progress_proyek,model_monitor_log_progress_proyek,monitor.group_monitor_user,1,1,1,1
+access_monitor_am_performance_report,monitor.am.performance.report,model_monitor_am_performance_report,monitor.group_monitor_user,1,0,0,0
