@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dokumen_dokumen_read_all,dokumen.dokumen.read.all,model_dokumen_dokumen,base.group_user,1,0,0,0
+access_dokumen_dokumen,dokumen.dokumen,model_dokumen_dokumen,dokumen.group_dokumen_user,1,1,1,1

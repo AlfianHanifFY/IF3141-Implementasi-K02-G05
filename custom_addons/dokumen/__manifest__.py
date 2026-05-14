@@ -1,0 +1,21 @@
+{
+    'name': 'Dokumen',
+    'version': '17.0.1.0.0',
+    'category': 'Documents',
+    'summary': 'Manajemen Dokumen',
+    'author': 'Custom',
+    'license': 'LGPL-3',
+    'depends': ['base', 'client_prospect'],
+    'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'views/dokumen_views.xml',
+        'views/pks_views.xml',
+        'views/po_views.xml',
+        'views/invoice_views.xml',
+        'views/kwitansi_views.xml',
+        'reports/invoice_draft_report.xml',
+    ],
+    'application': True,
+    'installable': True,
+}

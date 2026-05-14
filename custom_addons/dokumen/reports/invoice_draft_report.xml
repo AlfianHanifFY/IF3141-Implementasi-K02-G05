@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_invoice_draft_v2" model="ir.actions.report">
+        <field name="name">Draft Invoice PDF</field>
+        <field name="model">dokumen.dokumen</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dokumen.report_invoice_v2</field>
+        <field name="report_file">dokumen.report_invoice_v2</field>
+        <field name="print_report_name">'Draft Invoice - %s' % (object.no_invoice or object.name)</field>
+        <field name="binding_model_id" ref="model_dokumen_dokumen"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_invoice_v2">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row mt-4">
+                            <div class="col-12 text-center">
+                                <h2 style="color: #2c3e50; font-weight: bold;">DRAFT INVOICE</h2>
+                                <hr style="border-top: 2px solid #2c3e50;"/>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Kepada Yth:</strong><br/>
+                                <span t-field="o.client_id.company_name"/><br/>
+                                <span t-field="o.client_id.company_address"/><br/>
+                                <strong>PIC:</strong> <span t-field="o.client_id.pic_email"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>No Invoice:</strong> <span t-field="o.no_invoice"/><br/>
+                                <strong>Tanggal:</strong> <span t-esc="context_today().strftime('%d %B %Y')"/><br/>
+                                <strong>Jatuh Tempo:</strong> <span t-field="o.due_date_invoice"/><br/>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered mt-5">
+                            <thead style="background-color: #f8f9fa;">
+                                <tr>
+                                    <th>Deskripsi</th>
+                                    <th class="text-end">Nominal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span t-field="o.description_invoice"/><br/>
+                                        <small class="text-muted"><span t-field="o.description"/></small>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="o.value_invoice" t-options='{"widget": "monetary", "display_currency": o.client_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="text-end"><strong>Total</strong></td>
+                                    <td class="text-end">
+                                        <strong t-field="o.value_invoice" t-options='{"widget": "monetary", "display_currency": o.client_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="row mt-5">
+                            <div class="col-8">
+                                <p><strong>Catatan:</strong><br/>
+                                1. Pembayaran dapat dilakukan melalui transfer bank.<br/>
+                                2. Mohon konfirmasi jika pembayaran telah dilakukan.</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <p>Hormat Kami,</p>
+                                <br/><br/><br/>
+                                <p><strong>( ________________ )</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
