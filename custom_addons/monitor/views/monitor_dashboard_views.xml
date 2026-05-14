@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 1. Pivot View for Monthly Targets (monitor.target.line) -->
+    <record id="view_monitor_target_line_pivot" model="ir.ui.view">
+        <field name="name">monitor.target.line.pivot</field>
+        <field name="model">monitor.target.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Rincian Target Bulanan" sample="1">
+                <field name="target_id" type="row"/>
+                <field name="month" type="col"/>
+                <field name="amount_target" type="measure"/>
+                <field name="amount_realized" type="measure"/>
+                <field name="amount_miss" type="measure"/>
+                <field name="achievement_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+
+    <!-- 2b. Search View for Monthly Targets (for grouping) -->
+    <record id="view_monitor_target_line_search" model="ir.ui.view">
+        <field name="name">monitor.target.line.search</field>
+        <field name="model">monitor.target.line</field>
+        <field name="arch" type="xml">
+            <search string="Cari Target Line">
+                <field name="target_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project/Tahun" name="group_by_target" context="{'group_by': 'target_id'}"/>
+                    <filter string="Bulan" name="group_by_month" context="{'group_by': 'month', 'orderby': 'month_int asc'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- 3. Pivot View for AM Performance (Enhanced Summary) -->
+    <record id="view_monitor_am_performance_pivot" model="ir.ui.view">
+        <field name="name">monitor.am.performance.report.pivot</field>
+        <field name="model">monitor.am.performance.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Kinerja Account Manager" sample="1">
+                <field name="am_id" type="row"/>
+                <field name="prospect_count" type="measure"/>
+                <field name="won_count" type="measure"/>
+                <field name="total_contract_value" type="measure"/>
+                <field name="activity_count" type="measure"/>
+                <field name="meeting_count" type="measure"/>
+                <field name="phone_count" type="measure"/>
+                <field name="email_count" type="measure"/>
+                <field name="other_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Tree View for AM Performance -->
+    <record id="view_monitor_am_performance_tree" model="ir.ui.view">
+        <field name="name">monitor.am.performance.report.tree</field>
+        <field name="model">monitor.am.performance.report</field>
+        <field name="arch" type="xml">
+            <tree string="Kinerja AM" create="0">
+                <field name="am_id"/>
+                <field name="prospect_count" sum="Total Prospek"/>
+                <field name="won_count" sum="Total Won"/>
+                <field name="total_contract_value" sum="Total Estimasi"/>
+                <field name="activity_count" sum="Total Aktivitas"/>
+                <field name="meeting_count" sum="Total Meeting"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- 5. Standalone Tree View for Activity Logs -->
+    <record id="view_monitor_log_all_tree" model="ir.ui.view">
+        <field name="name">monitor.log_progress_proyek.all.tree</field>
+        <field name="model">monitor.log_progress_proyek</field>
+        <field name="arch" type="xml">
+            <tree string="Aktivitas Terbaru" create="0">
+                <field name="date"/>
+                <field name="progress_id"/>
+                <field name="name" string="Judul Aktivitas"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- 6. Search View for Reminders -->
+    <record id="view_dokumen_reminder_search" model="ir.ui.view">
+        <field name="name">dokumen.dokumen.reminder.search</field>
+        <field name="model">dokumen.dokumen</field>
+        <field name="arch" type="xml">
+            <search string="Reminder Search">
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="deadline_date"/>
+                <filter string="PKS Aktif" name="pks_type" domain="[('type', '=', 'pks')]"/>
+                <filter string="Invoice" name="invoice_type" domain="[('type', '=', 'invoice')]"/>
+                <separator/>
+                <filter string="Deadline &lt; 7 Hari" name="deadline_7" 
+                        domain="[('type', 'in', ['pks', 'invoice']), ('deadline_date', '!=', False), ('deadline_date', '&lt;=', (context_today() + datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Deadline &lt; 30 Hari" name="deadline_30" 
+                        domain="[('type', 'in', ['pks', 'invoice']), ('deadline_date', '!=', False), ('deadline_date', '&lt;=', (context_today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Deadline &lt; 60 Hari" name="deadline_60" 
+                        domain="[('type', 'in', ['pks', 'invoice']), ('deadline_date', '!=', False), ('deadline_date', '&lt;=', (context_today() + datetime.timedelta(days=60)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Tipe Dokumen" name="group_type" context="{'group_by': 'type'}"/>
+                    <filter string="Klien" name="group_client" context="{'group_by': 'client_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree View for Reminders (Disable Create) -->
+    <record id="view_dokumen_reminder_tree" model="ir.ui.view">
+        <field name="name">dokumen.dokumen.reminder.tree</field>
+        <field name="model">dokumen.dokumen</field>
+        <field name="arch" type="xml">
+            <tree string="Reminder Dokumen" create="0">
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="type"/>
+                <field name="deadline_date" widget="remaining_days"/>
+                <field name="file" filename="filename" widget="binary"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+
+    <record id="action_monitor_dashboard_finance" model="ir.actions.act_window">
+        <field name="name">Keuangan: Rincian Bulanan</field>
+        <field name="res_model">monitor.target.line</field>
+        <field name="view_mode">pivot</field>
+        <field name="search_view_id" ref="view_monitor_target_line_search"/>
+        <field name="context">{'search_default_group_by_target': 1}</field>
+    </record>
+
+    <record id="action_monitor_dashboard_am" model="ir.actions.act_window">
+        <field name="name">Summary Kinerja AM</field>
+        <field name="res_model">monitor.am.performance.report</field>
+        <field name="view_mode">pivot,tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada data kinerja yang terkumpul.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_monitor_dashboard_reminder" model="ir.actions.act_window">
+        <field name="name">Reminder PKS &amp; Invoice</field>
+        <field name="res_model">dokumen.dokumen</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_dokumen_reminder_tree"/>
+        <field name="search_view_id" ref="view_dokumen_reminder_search"/>
+        <field name="context">{'search_default_deadline_30': 1}</field>
+    </record>
+
+    <record id="action_monitor_dashboard_logs" model="ir.actions.act_window">
+        <field name="name">Log Aktivitas Terbaru</field>
+        <field name="res_model">monitor.log_progress_proyek</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_monitor_log_all_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada aktivitas yang dicatat.
+            </p>
+        </field>
+    </record>
+
+    <!-- MENUS -->
+    <menuitem id="menu_monitor_dashboard_root"
+              name="Dashboard"
+              parent="monitor_menu_root"
+              sequence="1"
+              groups="monitor.group_monitor_user"/>
+
+    <menuitem id="menu_monitor_dashboard_finance"
+              name="Keuangan: Target vs Realisasi"
+              parent="menu_monitor_dashboard_root"
+              action="action_monitor_dashboard_finance"
+              sequence="10"
+              groups="monitor.group_monitor_user"/>
+
+    <menuitem id="menu_monitor_dashboard_am"
+              name="Pemasaran: Kinerja AM"
+              parent="menu_monitor_dashboard_root"
+              action="action_monitor_dashboard_am"
+              sequence="20"
+              groups="monitor.group_monitor_user"/>
+
+    <menuitem id="menu_monitor_dashboard_reminder"
+              name="Operasional: Reminder &amp; Deadline"
+              parent="menu_monitor_dashboard_root"
+              action="action_monitor_dashboard_reminder"
+              sequence="30"
+              groups="monitor.group_monitor_user"/>
+
+    <menuitem id="menu_monitor_dashboard_logs"
+              name="Log: Aktivitas Terbaru"
+              parent="menu_monitor_dashboard_root"
+              action="action_monitor_dashboard_logs"
+              sequence="40"
+              groups="monitor.group_monitor_user"/>
+
+</odoo>
